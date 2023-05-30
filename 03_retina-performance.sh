@@ -103,7 +103,7 @@ do
 	grep -h -P "$pat|$pat2" $work/02.codex2.tsv > $work/$pat.codex2.tsv
 	grep -h -P "$pat|$pat2" $work/02.controlFREEC.tsv | awk -F"\t" '{if($1!="chrX") print $0; if($1=="chrX"){if($6==0) print $0}}' > $work/$pat.controlFREEC.tsv
 	grep -h -P "$pat|$pat2" $work/02.cnvkit.tsv > $work/$pat.cnvkit.tsv
-	cat $work/$pat.OFF-PEAK.tsv $work/$pat.OFF-PEAK-HQ.tsv $work/$pat.SavvyON.tsv $work/$pat.SavvyOFF.tsv $work/$pat.gatk.tsv $work/$pat.ExomeDepth.tsv | cut -f1-4 | sort -V -k1,1 -k2,2 > $work/$pat.all.tsv
+	cat $work/$pat.OFF-PEAK.tsv $work/$pat.OFF-PEAK-HQ.tsv $work/$pat.SavvyON.tsv $work/$pat.SavvyOFF.tsv $work/$pat.gatk.tsv $work/$pat.ExomeDepth.tsv $work/$pat.conifer.tsv $work/$pat.cnmops.tsv $work/$pat.codex2.tsv | cut -f1-4 | sort -V -k1,1 -k2,2 > $work/$pat.all.tsv
 	bedtools merge -i $work/$pat.all.tsv > $work/$pat.all.merge.tsv
 
 	# AR - comphet CNV + variant
