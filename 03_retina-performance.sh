@@ -80,7 +80,7 @@ bedtools intersect -wa -a $work/02.Savvy.f2.tsv -b $work/intervals.bed | sort | 
 for tool in gatk ExomeDepth conifer cnmops codex2 controlFREEC cnvkit
 do
 	echo $tool
-	bedtools intersect -wa -a $work/02.$tool.tsv -b $work/intervals.bed | sort | uniq | wc -l
+	bedtools intersect -wa -a $work/02.$tool.tsv -b $work/intervals.bed | awk -F"\t" '{if($1!="chrX") print $0; if($1=="chrX"){if($6==0) print $0}}' | sort | uniq | wc -l
 done
 
 rm $work/01.all.tsv
