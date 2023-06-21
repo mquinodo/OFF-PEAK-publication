@@ -40,13 +40,13 @@ do
 done
 
 # all CNVs without excluded ones
-grep -h -v -Ff $work/02.OFF-PEAK.exclusion.tsv $work/02.OFF-PEAK.all.tsv > $work/02.OFF-PEAK.tsv
-grep -h -v -Ff $work/02.OFF-PEAK-ON.exclusion.tsv $work/02.OFF-PEAK-HQ.all.tsv > $work/02.OFF-PEAK-HQ.tsv
-grep -h -v -Ff $work/02.SavvyCNVON.exclusion.tsv $here/unsolved-202*/SavvyCNV/unsolved-202*.SavvyCNVON.out.tsv  > $work/02.SavvyCNVON.tsv
+grep -h -v -Ff $work/02.OFF-PEAK.exclusion.tsv $work/02.OFF-PEAK.all.tsv | awk -F"\t" '{if($2!="chrX") print $0; if($2=="chrX"){if($8<0.5 || $8>3.5) print $0}}' > $work/02.OFF-PEAK.tsv
+grep -h -v -Ff $work/02.OFF-PEAK-ON.exclusion.tsv $work/02.OFF-PEAK-HQ.all.tsv | awk -F"\t" '{if($2!="chrX") print $0; if($2=="chrX"){if($8<0.5 || $8>3.5) print $0}}' > $work/02.OFF-PEAK-HQ.tsv
+grep -h -v -Ff $work/02.SavvyCNVON.exclusion.tsv $here/unsolved-202*/SavvyCNV/unsolved-202*.SavvyCNVON.out.tsv | awk -F"\t" '{if($1!="chrX") print $0; if($1=="chrX"){if($6<0.5 || $6>3.5) print $0}}'  > $work/02.SavvyCNVON.tsv
 grep -h -v -Ff $work/02.SavvyCNVOFF.exclusion.tsv $here/unsolved-202*/SavvyCNV/unsolved-202*.SavvyCNVOFF.out.tsv  > $work/02.SavvyCNVOFF.tsv
 for tool in gatk ExomeDepth conifer cnmops codex2 controlFREEC cnvkit
 do
-	grep -h -v -Ff $work/02.$tool.exclusion.tsv $here/unsolved-202*/$tool/unsolved-202*.$tool.out.tsv  > $work/02.$tool.tsv
+	grep -h -v -Ff $work/02.$tool.exclusion.tsv $here/unsolved-202*/$tool/unsolved-202*.$tool.out.tsv | awk -F"\t" '{if($1!="chrX") print $0; if($1=="chrX"){if($6<0.5 || $6>3.5) print $0}}' > $work/02.$tool.tsv
 done
 
 # number after gene and common removal
